@@ -3,6 +3,7 @@ import InputField from "./InputField";
 import Button from "./button";
 
 const LoginForm = ({
+  errorMessage,
   username,
   password,
   handleUsernameChange,
@@ -15,6 +16,9 @@ const LoginForm = ({
         Login
       </h1>
       <form className="space-y-4">
+        {errorMessage && (
+          <div className="text-red-500 text-sm text-center">{errorMessage}</div>
+        )}
         <InputField
           label="Username"
           type="text"

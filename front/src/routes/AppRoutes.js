@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "../pages/oauth/Login";
 const AppRoutes = () => {
   return (
-    <Router future={{ v7_startTransition: true }}>
+    <Router>
       <Routes>
         <Route path="/oauth/login" element={<Login />} />
+        <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "../pages/oauth/Login";
 const AppRoutes = () => {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true }}>
       <Routes>
         <Route path="/oauth/login" element={<Login />} />
       </Routes>

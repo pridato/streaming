@@ -19,11 +19,11 @@ public class UserController {
 
     @GetMapping("/login")
     public ResponseEntity<?> login(@RequestParam("username") String username,@RequestParam("password") String password) {
-        logger.info("Login request received for user: {}", username);
-        if (authService.login(username, password)) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.badRequest().body("Login failed");
+        try {
+            return ResponseEntity.ok(authService.login(username, password));
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

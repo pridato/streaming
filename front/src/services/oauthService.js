@@ -17,3 +17,12 @@ export const authenticateUser = async (username, password) => {
   });
   return response.data;
 };
+
+/**
+ * Función para autenticar un usuario con google
+ * @returns
+ */
+export const authenticateGoogleUser = async () => {
+  const response = await axios.get(`${API_URL}/oauth/login`);
+  return response.data;
+};

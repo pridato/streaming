@@ -2,12 +2,15 @@ import React from "react";
 import LoginForm from "../../components/LoginForm";
 import { authenticateUser } from "../../services/oauthService";
 import { useToast } from "@chakra-ui/react";
+import { showToast } from "../../services/toastService";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const toast = useToast();
   const [errorMessage, setErrorMessage] = React.useState("");
+  const navigate = useNavigate();
 
   /**
    * funcion para manejar el cambio del usuario al escribir en el campo de usuario
@@ -36,15 +39,18 @@ const Login = () => {
     } else {
       try {
         const response = await authenticateUser(username, password);
+        // TODO guardar el response en una cookie para guardar la sesion en un authContext
         console.log(response);
+        navigate("/");
       } catch (error) {
         console.error(error);
-        toast({
+        showToast({
           title: "Error",
           description: "Usuario o contraseña incorrectos",
           status: "error",
           duration: 9000,
           isClosable: true,
+          toast,
         });
       }
     }

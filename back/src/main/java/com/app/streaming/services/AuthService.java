@@ -1,26 +1,38 @@
 package com.app.streaming.services;
 
+import com.app.streaming.controllers.UserController;
 import com.app.streaming.model.User;
 import com.app.streaming.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.app.streaming.globals.Globales.googleClientId;
-import static com.app.streaming.globals.Globales.googleRedirectUri;
+import static com.app.streaming.globals.Globales.*;
 
 @Service
 public class AuthService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     /**
      * Función para el logueo de un usuario
@@ -69,4 +81,81 @@ public class AuthService {
             return null;
         }
     }
+
+    /**
+     * Metodo para loguearse con Google.
+     * @param code Codigo de autorizacion.
+     * @param scope Permisos solicitados.
+     * @param authuser Usuario autenticado al utilizar diferentes flujos.
+     * @param prompt Indica si se debe mostrar la pantalla de consentimiento.
+     * @return Objeto con el usuario logueado y su token.
+     */
+    public RedirectView loginGoogle(String code, String scope, String authuser, String prompt) {
+        // 1º intercambiamos el token de autorizacion por el token de acceso
+
+        // creamos una url para acceder al token que nos habilita el acceso a la informacion del usuario
+        HttpEntity<MultiValueMap<String, String>> request = createRequest(code);
+        String accessToken = getAccessToken(request);
+        Map<String, Object> userInfo = getUserInfo(accessToken);
+        logger.info("Usuario logueado: " + userInfo);
+
+        // devolvemos un redirect con los params email y jwt
+        return new RedirectView("http://localhost:3000");
+    }
+
+    /**
+     * metodo para generar request de intercambio de token
+     * @param code -> codigo de autorizacion
+     * @return la entidad http creada
+     */
+    private  HttpEntity<MultiValueMap<String, String>> createRequest(String code) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("code", code);
+        params.add("client_id", googleClientId);
+        params.add("client_secret", googleClientSecret);
+        params.add("redirect_uri", googleRedirectUri);
+        params.add("grant_type", "authorization_code");
+
+        return new HttpEntity<>(params, headers);
+    }
+
+    /**
+     * metodo para obtener el token de acceso a partir del request
+     * @param request -> request creada createRequest
+     * @return el token de acceso
+     */
+    private String getAccessToken(HttpEntity<MultiValueMap<String, String>> request ) {
+        // tokenUrl => globales
+        try {
+            ResponseEntity<Map> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, request, Map.class);
+            Map tokenResponse = response.getBody();
+            if (tokenResponse == null || !tokenResponse.containsKey("access_token")) {
+                throw new RuntimeException("Error al obtener el token de acceso");
+            }
+            return (String) tokenResponse.get("access_token");
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        return "";
+    }
+
+    /**
+     * metodo para obtener la informacion del usuario a partir del token de acceso
+     * @param accessToken -> token de acceso
+     * @return la informacion del usuario
+     */
+    private Map<String, Object> getUserInfo(String accessToken) {
+        HttpHeaders userInfoHeaders = new HttpHeaders();
+        userInfoHeaders.setBearerAuth(accessToken);
+
+        HttpEntity<String> userInfoRequest = new HttpEntity<>(userInfoHeaders);
+
+        ResponseEntity<Map> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, userInfoRequest, Map.class);
+        return (Map<String, Object>) userInfoResponse.getBody();
+    }
+
 }

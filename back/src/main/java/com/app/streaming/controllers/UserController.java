@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/oauth")
@@ -30,5 +31,13 @@ public class UserController {
     @GetMapping("/get-google-redirect-url")
     public String googleLogin() {
         return this.authService.getGoogleRedirect();
+    }
+
+    @GetMapping(value = "/login-google", produces = "application/json")
+    public RedirectView googleOauth(@RequestParam String code,
+                                    @RequestParam String scope,
+                                    @RequestParam String authuser,
+                                    @RequestParam String prompt) {
+        return this.authService.loginGoogle(code, scope, authuser, prompt);
     }
 }

@@ -8,9 +8,12 @@ import { API_URL } from "../globals/globals";
  * @returns respuesta del microservicio oauth
  */
 export const authenticateUser = async (username, password) => {
-  const response = await axios.post(API_URL + "/auth/login", {
-    username,
-    password,
+  const response = await axios.get(`${API_URL}/oauth/login`, {
+    params: {
+      username,
+      password,
+      grant_type: "password",
+    },
   });
   return response.data;
 };

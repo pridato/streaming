@@ -1,7 +1,6 @@
 import React from "react";
 import LoginForm from "../../components/LoginForm";
 import { authenticateUser } from "../../services/oauthService";
-import SpinnerComponent from "../../components/Spinner";
 import { useToast } from "@chakra-ui/react";
 
 const Login = () => {

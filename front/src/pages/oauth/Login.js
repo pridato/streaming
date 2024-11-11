@@ -1,6 +1,6 @@
 import React from "react";
 import LoginForm from "../../components/LoginForm";
-import { authenticateUser } from "../../services/oauthService";
+import { authenticateUser, getGoogleUrl } from "../../services/oauthService";
 import { useToast } from "@chakra-ui/react";
 import { showToast } from "../../services/toastService";
 import { useNavigate } from "react-router-dom";
@@ -56,6 +56,26 @@ const Login = () => {
     }
   };
 
+  /**
+   * Funcion para manejar el inicio de sesión con Google, generra url de redireccionamiento a Google
+   */
+  const handleGoogleLogin = () => {
+    getGoogleUrl()
+      .then((response) => {
+        window.location.href = response.url;
+      })
+      .catch((error) => {
+        showToast({
+          title: "Error",
+          description: "No se pudo iniciar sesión con Google",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          toast,
+        });
+      });
+  };
+
   return (
     <div className="flex h-screen">
       {/* Sección de la Imagen */}
@@ -77,6 +97,7 @@ const Login = () => {
           handleUsernameChange={handleUsernameChange}
           handlePasswordChange={handlePasswordChange}
           handleLogin={handleLogin}
+          handleGoogleLogin={handleGoogleLogin}
         />
       </div>
     </div>

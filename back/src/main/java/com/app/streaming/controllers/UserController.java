@@ -26,4 +26,9 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/get-google-redirect-url")
+    public String googleLogin() {
+        return this.authService.getGoogleRedirect();
+    }
 }

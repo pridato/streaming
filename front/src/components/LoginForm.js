@@ -11,6 +11,7 @@ const LoginForm = ({
   handleUsernameChange,
   handlePasswordChange,
   handleLogin,
+  handleGoogleLogin,
 }) => {
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -26,7 +27,7 @@ const LoginForm = ({
       <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
         Login
       </h1>
-      <GoogleButton />
+      <GoogleButton handleGoogleLogin={handleGoogleLogin} />
       <form className="space-y-4">
         {errorMessage && (
           <div className="text-red-500 text-sm text-center">{errorMessage}</div>

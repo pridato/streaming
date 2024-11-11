@@ -20,9 +20,9 @@ export const authenticateUser = async (username, password) => {
 
 /**
  * Función para autenticar un usuario con google
- * @returns
+ * @returns String url a redirigir
  */
-export const authenticateGoogleUser = async () => {
-  const response = await axios.get(`${API_URL}/oauth/login`);
+export const getGoogleUrl = async () => {
+  const response = await axios.get(`${API_URL}/oauth/get-google-redirect-url`);
   return response.data;
 };

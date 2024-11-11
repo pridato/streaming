@@ -16,11 +16,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(request -> request.requestMatchers(
-                        new AntPathRequestMatcher("/oauth/login")).permitAll())
-                .authorizeHttpRequests(request -> request.requestMatchers(
-                        new AntPathRequestMatcher("/chat-socket/**")).permitAll())
-                .authorizeHttpRequests(request -> request.requestMatchers(
-                        new AntPathRequestMatcher("/google/**")).permitAll())
+                        new AntPathRequestMatcher("/oauth/**")).permitAll())
                 .authorizeHttpRequests(request -> request.requestMatchers(new
                                 AntPathRequestMatcher("/**"))
                         .authenticated()

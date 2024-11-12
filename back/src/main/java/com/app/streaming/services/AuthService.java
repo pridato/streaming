@@ -1,6 +1,5 @@
 package com.app.streaming.services;
 
-import com.app.streaming.controllers.UserController;
 import com.app.streaming.model.User;
 import com.app.streaming.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +47,7 @@ public class AuthService {
             return userToCompare.get();
         }
 
+        logger.error("Usuario o contraseña incorrectos");
         throw new Exception("Usuario o contraseña incorrectos");
     }
 
@@ -97,7 +97,7 @@ public class AuthService {
         HttpEntity<MultiValueMap<String, String>> request = createRequest(code);
         String accessToken = getAccessToken(request);
         Map<String, Object> userInfo = getUserInfo(accessToken);
-        logger.info("Usuario logueado: " + userInfo);
+        logger.info("Usuario logueado: {}", userInfo);
 
         // devolvemos un redirect con los params email y jwt
         return new RedirectView("http://localhost:3000");

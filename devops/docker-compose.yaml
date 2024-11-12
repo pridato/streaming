@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: streaming_db
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+    restart: always
+  # Servicio Redis
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379" # Mapea el puerto 6379 en el contenedor al 6379 en tu máquina local
+    networks:
+      - app-network
+    volumes:
+      - redis-data:/data # Persiste los datos de Redis entre reinicios
+    restart: always
+
+  # Servicio para Spring Boot
+  spring-boot-app:
+    build:
+      context: ../back
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_PROFILES_ACTIVE=dev # Puedes agregar este si tienes perfiles en tu aplicación
+    networks:
+      - app-network
+    volumes:
+      - ../back/.env:/back/.env # Monta el archivo .env en el contenedor (ajusta la ruta si es necesario)
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge # Crear una red puente para la comunicación entre contenedores
+
+volumes:
+  redis-data:
+    driver: local # Volumen para almacenar los datos de Redis

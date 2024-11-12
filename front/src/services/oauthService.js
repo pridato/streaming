@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../globals/globals";
+import { getBrowserId } from "./utils";
 
 /**
  * Funcion para manejar el login y enviarlo al oauth para que este lo valide
@@ -8,11 +9,16 @@ import { API_URL } from "../globals/globals";
  * @returns respuesta del microservicio oauth
  */
 export const authenticateUser = async (username, password) => {
+  const browserIds = getBrowserId();
+
   const response = await axios.get(`${API_URL}/oauth/login`, {
     params: {
       username,
       password,
       grant_type: "password",
+    },
+    headers: {
+      "browser-id": browserIds,
     },
   });
   return response.data;

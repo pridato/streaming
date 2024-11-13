@@ -31,3 +31,13 @@ CREATE TABLE comment (
      FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
      FOREIGN KEY (video_id) REFERENCES video(id) ON DELETE CASCADE
 );
+
+insert into user (username, name, email, password_hash, phone, is_verified)
+values (
+           'david',
+           'David',
+           'david@example.com',
+              'david2004',
+              123456789,
+                FALSE
+);

@@ -6,6 +6,7 @@ public class Globales {
 
     static Dotenv dotenv = Dotenv.configure().load();
 
+    public static final String secretKey = dotenv.get("SECRET_KEY");
     public static final String googleClientId = dotenv.get("GOOGLE_CLIENT_ID");
     public static final String googleClientSecret = dotenv.get("GOOGLE_CLIENT_SECRET");
     public static final String googleRedirectUri = "http://localhost:8080/oauth/login-google";

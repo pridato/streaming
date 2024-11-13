@@ -3,6 +3,8 @@ package com.app.streaming.services;
 import com.app.streaming.model.User;
 import com.app.streaming.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,19 @@ public class AuthService {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
+    private String googleClientBrowserId = "";
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private RedisService redisService;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -38,16 +48,20 @@ public class AuthService {
      *
      * @param username nombre del usuario
      * @param password contraseña del usuario
+     * @param browserId id del navegador
      * @return true si el usuario se loguea correctamente, false en caso contrario
      */
-    public User login(String username, String password) throws Exception {
+    public User login(String username, String password, String browserId) throws Exception {
         Optional<User> userToCompare = userRepository.findByUsername(username);
 
         if (userToCompare.isPresent() && userToCompare.get().getPasswordHash().equals(password)) {
+            String accessToken = tokenService.generateAccessToken(userToCompare.get().getEmail(), browserId);
+            redisService.set(browserId, accessToken);
+            logger.info("browser: {}", redisService.get(browserId));
             return userToCompare.get();
         }
 
-        logger.error("Usuario o contraseña incorrectos");
+        logger.error("Usuario o contraseña aaaa");
         throw new Exception("Usuario o contraseña incorrectos");
     }
 
@@ -56,7 +70,8 @@ public class AuthService {
      *
      * @return direccion de url de inicio de sesion de google, su popup
      */
-    public String getGoogleRedirect() {
+    public String getGoogleRedirect(String browserId) {
+        googleClientBrowserId = browserId;
         String googleAuthorizationUrl = "https://accounts.google.com/o/oauth2/auth" +
                 "?client_id=" + googleClientId +
                 "&redirect_uri=" + googleRedirectUri +
@@ -90,14 +105,28 @@ public class AuthService {
      * @param prompt Indica si se debe mostrar la pantalla de consentimiento.
      * @return Objeto con el usuario logueado y su token.
      */
-    public RedirectView loginGoogle(String code, String scope, String authuser, String prompt) {
-        // 1º intercambiamos el token de autorizacion por el token de acceso
+    public RedirectView loginGoogle(HttpServletResponse response, String code, String scope, String authuser, String prompt) {
 
-        // creamos una url para acceder al token que nos habilita el acceso a la informacion del usuario
+        // Creamos una URL para acceder al token que nos habilita el acceso a la información del usuario
         HttpEntity<MultiValueMap<String, String>> request = createRequest(code);
         String accessToken = getAccessToken(request);
         Map<String, Object> userInfo = getUserInfo(accessToken);
-        logger.info("Usuario logueado: {}", userInfo);
+
+        // Generamos el token de acceso para el usuario
+        String UserAccessToken = tokenService.generateAccessToken(userInfo.get("email").toString(), googleClientBrowserId);
+
+        // Almacenamos el token en Redis
+        redisService.set(googleClientBrowserId, UserAccessToken);
+        logger.info("Usuario logueado: {}", redisService.get(googleClientBrowserId));
+
+        // Establecemos el UserAccessToken en una cookie
+        Cookie cookie = new Cookie("UserAccessToken", UserAccessToken);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(86400); // 24 horas
+        cookie.setSecure(true);
+
+        response.addCookie(cookie);
 
         // devolvemos un redirect con los params email y jwt
         return new RedirectView("http://localhost:3000");

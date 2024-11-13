@@ -29,6 +29,11 @@ export const authenticateUser = async (username, password) => {
  * @returns String url a redirigir
  */
 export const getGoogleUrl = async () => {
-  const response = await axios.get(`${API_URL}/oauth/get-google-redirect-url`);
+  const browserIds = getBrowserId();
+  const response = await axios.get(`${API_URL}/oauth/get-google-redirect-url`, {
+    headers: {
+      "browser-id": browserIds,
+    },
+  });
   return response.data;
 };

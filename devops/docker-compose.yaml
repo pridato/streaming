@@ -43,6 +43,19 @@ services:
       - ../back/.env:/back/.env # Monta el archivo .env en el contenedor (ajusta la ruta si es necesario)
     restart: always
 
+  # Servicio para flask
+  flask-chatbot:
+    build:
+      context: ../microservices/chat-bot/
+    container_name: flask-chatbot
+    ports:
+      - "5050:5050"
+    networks:
+      - app-network
+    depends_on:
+      - redis
+    restart: always
+
 networks:
   app-network:
     driver: bridge # Crear una red puente para la comunicación entre contenedores

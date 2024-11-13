@@ -1,0 +1,26 @@
+# Entorno virtual (virtualenv)
+venv/
+.env
+
+# Archivos de configuración de IDE (PyCharm, VS Code, etc.)
+.idea/
+.vscode/
+
+# Archivos de dependencias de Python que pueden ser generados
+*.pyc
+*.pyo
+__pycache__/
+
+# Directorios y archivos específicos de Docker
+docker-compose.override.yml
+*.db
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+# Carpeta de Redis (si la tienes)
+redis-data/

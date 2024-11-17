@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { IconArrowsDiagonalMinimize2, IconSend } from "@tabler/icons-react";
 import Message from "./message";
+import { getChatBotResponse } from "../services/chatBotService";
+import { showToast } from "../services/toastService";
+import { useToast } from "@chakra-ui/react";
 
 const ChatBox = ({ closeChat }) => {
+  const toast = useToast();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
     { sender: "bot", text: "¡Hola! ¿Cómo puedo ayudarte hoy?" },
@@ -19,7 +23,38 @@ const ChatBox = ({ closeChat }) => {
   /**
    * Función para enviar un mensaje y obtener una respuesta del bot
    */
-  const handleSendMessage = () => {};
+  const handleSendMessage = async () => {
+    if (message === "") return;
+    try {
+      // Se actualiza el estado de los mensajes en un solo paso
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "user", text: message },
+      ]);
+
+      // Obtenemos la respuesta del bot
+      const response = await getChatBotResponse(message);
+
+      // Actualizamos el estado con la respuesta del bot
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "bot", text: response },
+      ]);
+
+      // Limpiar el campo de mensaje después de enviar
+      setMessage("");
+    } catch (e) {
+      console.error(e);
+      showToast({
+        title: "Error",
+        description: e.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        toast,
+      });
+    }
+  };
 
   return (
     <div className="fixed bottom-4 right-5 w-72 h-96 bg-white border border-gray-300 rounded-lg shadow-lg p-4">

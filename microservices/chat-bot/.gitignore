@@ -6,6 +6,8 @@ venv/
 .idea/
 .vscode/
 
+.env
+
 # Archivos de dependencias de Python que pueden ser generados
 *.pyc
 *.pyo

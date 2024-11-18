@@ -4,6 +4,7 @@ import { authenticateUser, getGoogleUrl } from "../../services/oauthService";
 import { useToast } from "@chakra-ui/react";
 import { showToast } from "../../services/toastService";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [username, setUsername] = React.useState("");
@@ -77,29 +78,70 @@ const Login = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      {/* Sección de la Imagen */}
-      <div className="w-1/2 bg-gray-100 flex items-center justify-center relative">
-        <img
-          src="/assets/login_image.jpg"
-          alt="Login Visual"
-          className="h-full w-full object-cover"
-        />
+    <div className="min-h-screen bg-[#000000] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Elementos decorativos de fondo */}
+      <div className="absolute inset-0 w-full h-full">
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      {/* Sección del Formulario de Login */}
-      <div className="w-1/2 flex items-center justify-center relative">
-        {/* Este div también será cubierto por el overlay cuando 'loading' sea true */}
-        <LoginForm
-          errorMessage={errorMessage}
-          username={username}
-          password={password}
-          handleUsernameChange={handleUsernameChange}
-          handlePasswordChange={handlePasswordChange}
-          handleLogin={handleLogin}
-          handleGoogleLogin={handleGoogleLogin}
-        />
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-6xl h-[600px] flex rounded-2xl overflow-hidden shadow-2xl bg-[#111111] border border-gray-800 relative z-10"
+      >
+        {/* Sección de la Ilustración */}
+        <motion.div
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="hidden lg:flex w-1/2 relative bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a]"
+        >
+          <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+          <img
+            src="/assets/modern_illustration.svg"
+            alt="Login Visual"
+            className="absolute inset-0 w-full h-full object-contain p-12 animate-float"
+          />
+          <div className="relative z-10 p-12 text-white mt-auto">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text"
+            >
+              Bienvenido de nuevo
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="text-lg text-gray-400"
+            >
+              Accede a tu cuenta para continuar tu viaje con nosotros
+            </motion.p>
+          </div>
+        </motion.div>
+
+        {/* Sección del Formulario */}
+        <motion.div
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="w-full lg:w-1/2 p-8 sm:p-12 bg-[#111111]"
+        >
+          <LoginForm
+            errorMessage={errorMessage}
+            username={username}
+            password={password}
+            handleUsernameChange={handleUsernameChange}
+            handlePasswordChange={handlePasswordChange}
+            handleLogin={handleLogin}
+            handleGoogleLogin={handleGoogleLogin}
+          />
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

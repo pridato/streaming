@@ -129,7 +129,7 @@ class Chatbot:
         understanding = self.understand_message(message)
 
         # Si la confianza es menor a 0.6, retorna un mensaje pidiendo aclaración
-        if understanding["confidence"] < 0.5:
+        if understanding["confidence"] < 0.4:
             logger.warning(
                 f'Confianza baja ({understanding["confidence"]}) para el mensaje: {message}')
             return "Lo siento, no estoy seguro de entender tu pregunta. ¿Podrías reformularla?"

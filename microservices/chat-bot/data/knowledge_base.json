@@ -25,25 +25,70 @@
       "formal": "Ha sido un placer ayudarte. ¡Que tengas un excelente día!"
     }
   },
-  "servicios_streaming": {
+  "chatbot_info": {
     "preguntas_ejemplo": [
-      "¿Qué planes ofrecen?",
-      "¿Cuánto cuesta la suscripción?",
-      "¿Qué servicios tienen disponibles?",
-      "¿Qué contenido tienen disponible?",
-      "¿Puedo ver en varios dispositivos?",
-      "¿Tienen período de prueba?",
-      "¿Cómo puedo cancelar mi suscripción?",
-      "¿Cómo puedo cambiar mi plan?"
+      "¿Qué es un chatbot?",
+      "¿Cómo funciona el chatbot?",
+      "¿Para qué sirve un chatbot?",
+      "¿Quién puede usar un chatbot?",
+      "¿Qué beneficios tiene un chatbot?",
+      "¿Es seguro usar chatbots?",
+      "¿Qué tipos de chatbots hay?"
     ],
     "respuestas": {
-      "planes": "Ofrecemos tres planes diferentes: Básico, Estándar y Premium. Cada uno con diferentes beneficios de calidad y dispositivos simultáneos.",
-      "precios": "Nuestros precios van desde $8.99 para el plan Básico, $13.99 para el Estándar y $17.99 para el Premium.",
-      "contenido": "Contamos con una amplia biblioteca de películas, series, documentales y contenido original exclusivo.",
-      "dispositivos": "Dependiendo de tu plan, puedes ver en 1, 2 o hasta 4 dispositivos simultáneamente.",
-      "prueba": "¡Sí! Ofrecemos 30 días de prueba gratis para que pruebes nuestro servicio.",
-      "cancelar": "Puedes cancelar tu suscripción en cualquier momento desde tu cuenta de StreamApp.",
-      "cambiar": "Para cambiar tu plan, ve a Configuración y selecciona el plan que deseas. Tu cambio se aplicará al inicio de tu próxima factura."
+      "definicion": "Un chatbot es un asistente virtual impulsado por IA que puede mantener conversaciones naturales con usuarios, responder preguntas y ayudar en diversas tareas de forma automática.",
+      "funcionamiento": "Nuestros chatbots utilizan procesamiento de lenguaje natural (NLP) y machine learning para entender las preguntas y proporcionar respuestas precisas y contextuales.",
+      "beneficios": "Los chatbots ofrecen atención 24/7, reducen costos operativos, mejoran la satisfacción del cliente y permiten escalar la atención al cliente sin límites.",
+      "seguridad": "Nuestros chatbots cumplen con los más altos estándares de seguridad y privacidad, garantizando la protección de datos sensibles.",
+      "tipos": "Ofrecemos chatbots conversacionales avanzados, chatbots de soporte técnico, chatbots de ventas y chatbots personalizados según las necesidades específicas."
+    }
+  },
+  "empresas_target": {
+    "preguntas_ejemplo": [
+      "¿Para qué empresas es útil?",
+      "¿Quién necesita un chatbot?",
+      "¿Mi empresa necesita un chatbot?",
+      "¿En qué industrias se usa?",
+      "¿Qué tamaño de empresa necesita chatbot?"
+    ],
+    "respuestas": {
+      "industrias": "Los chatbots son ideales para cualquier industria: e-commerce, servicios financieros, salud, educación, turismo, retail y más.",
+      "tamaño_empresa": "Desde startups hasta grandes corporaciones pueden beneficiarse de los chatbots. Adaptamos las soluciones según el tamaño y necesidades de cada empresa.",
+      "casos_uso": "Son especialmente útiles para empresas que manejan alto volumen de consultas, necesitan atención 24/7 o quieren automatizar procesos de atención al cliente.",
+      "beneficios_empresa": "Reducción de costos operativos, mejora en la satisfacción del cliente, aumento en ventas y optimización de recursos humanos.",
+      "implementacion": "La implementación es rápida y sencilla, con mínimo impacto en tus operaciones actuales."
+    }
+  },
+  "caracteristicas_tecnicas": {
+    "preguntas_ejemplo": [
+      "¿Qué tecnología usan?",
+      "¿Cómo se integra el chatbot?",
+      "¿Qué lenguajes soporta?",
+      "¿Puede personalizarse?",
+      "¿Tiene análisis de datos?"
+    ],
+    "respuestas": {
+      "tecnologia": "Utilizamos IA avanzada, machine learning y procesamiento de lenguaje natural para ofrecer una experiencia conversacional natural y precisa.",
+      "integracion": "Fácil integración con sitios web, aplicaciones móviles, WhatsApp, Facebook Messenger y otras plataformas populares.",
+      "personalizacion": "Personalización completa en diseño, flujos de conversación, tono de voz y capacidades según tus necesidades.",
+      "idiomas": "Soporte multilingüe con capacidad de entender y responder en varios idiomas.",
+      "analiticas": "Dashboard completo con análisis de conversaciones, métricas de rendimiento y reportes detallados."
+    }
+  },
+  "precios_planes": {
+    "preguntas_ejemplo": [
+      "¿Cuánto cuesta un chatbot?",
+      "¿Qué planes tienen?",
+      "¿Tienen periodo de prueba?",
+      "¿Hay costos de implementación?",
+      "¿Puedo cambiar de plan?"
+    ],
+    "respuestas": {
+      "planes": "Ofrecemos planes flexibles: Starter, Business y Enterprise, adaptados a diferentes necesidades y presupuestos.",
+      "prueba_gratis": "Sí, ofrecemos una prueba gratuita de 14 días para que pruebes todas las funcionalidades.",
+      "implementacion": "La implementación básica está incluida en todos los planes, con soporte personalizado en planes superiores.",
+      "escalabilidad": "Puedes escalar tu plan según crezcan tus necesidades, sin penalizaciones ni contratos largos.",
+      "personalizacion_precios": "Contáctanos para un presupuesto personalizado según tus necesidades específicas."
     }
   },
   "soporte_tecnico": {
@@ -63,6 +108,167 @@
       "error": "Por favor, intenta cerrar y volver a abrir la aplicación. Si el problema persiste, actualiza la app o contacta a soporte.",
       "problema": "Para ayudarte mejor, necesitaría más detalles...",
       "recomendacion": "Te recomendamos reiniciar la aplicación y verificar tu conexión a internet."
+    }
+  },
+  "razones_compra": {
+    "preguntas_ejemplo": [
+      "¿Por qué debería comprar un chatbot?",
+      "¿Por qué necesito un chatbot?",
+      "¿Qué ventajas tiene comprar un chatbot?",
+      "¿Vale la pena invertir en un chatbot?",
+      "¿Cuál es el ROI de un chatbot?",
+      "¿Qué beneficios obtendré?",
+      "¿Por qué elegir su chatbot?",
+      "Convénceme de comprar un chatbot"
+    ],
+    "respuestas": {
+      "ahorro_costos": "Un chatbot puede reducir hasta un 30% los costos de atención al cliente. Imagina poder manejar miles de consultas simultáneas sin aumentar tu personal.",
+
+      "disponibilidad": "A diferencia de los agentes humanos, nuestros chatbots trabajan 24/7/365, sin vacaciones, sin descansos y sin tiempo de espera para tus clientes.",
+
+      "eficiencia": "Automatiza hasta el 80% de las preguntas frecuentes, permitiendo que tu equipo se enfoque en tareas más estratégicas y complejas.",
+
+      "experiencia_cliente": "Mejora la satisfacción del cliente con respuestas instantáneas y consistentes. El 68% de los clientes aprecia la rapidez de los chatbots.",
+
+      "ventaja_competitiva": "El 67% de los consumidores globales interactuó con un chatbot el último año. No quedarse atrás en esta tendencia es crucial para mantenerse competitivo.",
+
+      "escalabilidad": "Maneja picos de demanda sin costos adicionales. Ya sea 1 o 1000 conversaciones simultáneas, el costo se mantiene igual.",
+
+      "roi": "Nuestros clientes ven un ROI promedio del 250% en el primer año, combinando ahorro de costos y aumento en ventas.",
+
+      "datos_insights": "Obtén información valiosa sobre tus clientes: preguntas frecuentes, patrones de comportamiento y oportunidades de mejora.",
+
+      "casos_exito": "Empresas que implementaron nuestros chatbots reportan:\n- Reducción del 45% en costos de atención\n- Aumento del 35% en satisfacción del cliente\n- Incremento del 25% en conversiones",
+
+      "diferenciadores": "Nuestros chatbots destacan por:\n- IA avanzada con comprensión contextual\n- Personalización completa\n- Integración con múltiples plataformas\n- Análisis detallado de conversaciones\n- Soporte técnico 24/7",
+
+      "facil_inicio": "Implementación rápida y sin complicaciones:\n1. Configuración en menos de 24 horas\n2. Sin necesidad de conocimientos técnicos\n3. Soporte continuo\n4. Prueba gratuita de 14 días",
+
+      "garantia": "Ofrecemos garantía de satisfacción de 30 días. Si no ves resultados, te devolvemos tu inversión.",
+
+      "tendencia_mercado": "Para 2025, el 95% de las interacciones con clientes serán manejadas por IA. Adelántate a la competencia y prepara tu negocio para el futuro.",
+
+      "testimonios": "\"Redujimos nuestros tiempos de respuesta de horas a segundos\" - Cliente del sector retail\n\"El ROI superó nuestras expectativas en el primer trimestre\" - Cliente del sector financiero"
+    }
+  },
+  "tareas_capacidades": {
+    "preguntas_ejemplo": [
+      "¿Qué puede hacer el chatbot?",
+      "¿Qué tareas realiza?",
+      "¿Cuáles son sus funciones?",
+      "¿Para qué sirve el chatbot?",
+      "¿Qué problemas resuelve?",
+      "¿Qué tipo de preguntas responde?",
+      "¿Cuáles son sus capacidades?"
+    ],
+    "respuestas": {
+      "atencion_cliente": {
+        "general": "El chatbot puede manejar consultas básicas y avanzadas de atención al cliente:",
+        "tareas": [
+          "Responder preguntas frecuentes 24/7",
+          "Resolver problemas técnicos básicos",
+          "Gestionar quejas y reclamos",
+          "Proporcionar información de productos/servicios",
+          "Dar seguimiento a casos",
+          "Escalar a agentes humanos cuando sea necesario"
+        ]
+      },
+
+      "ventas_marketing": {
+        "general": "Automatiza y mejora procesos de ventas y marketing:",
+        "tareas": [
+          "Calificar leads y prospectos",
+          "Programar demostraciones y reuniones",
+          "Proporcionar cotizaciones",
+          "Realizar encuestas de satisfacción",
+          "Enviar promociones personalizadas",
+          "Asistir en el proceso de compra"
+        ]
+      },
+
+      "operaciones": {
+        "general": "Optimiza operaciones internas y procesos:",
+        "tareas": [
+          "Gestionar reservas y citas",
+          "Procesar pedidos y devoluciones",
+          "Actualizar información de envíos",
+          "Verificar estado de cuenta",
+          "Generar tickets de soporte",
+          "Automatizar tareas administrativas"
+        ]
+      },
+
+      "recursos_humanos": {
+        "general": "Apoyo en procesos de RRHH:",
+        "tareas": [
+          "Responder preguntas sobre políticas internas",
+          "Asistir en procesos de reclutamiento",
+          "Gestionar solicitudes de vacaciones",
+          "Proporcionar información sobre beneficios",
+          "Facilitar onboarding de empleados",
+          "Programar entrevistas"
+        ]
+      },
+
+      "analisis_datos": {
+        "general": "Capacidades analíticas y de reportes:",
+        "tareas": [
+          "Generar informes de interacciones",
+          "Analizar patrones de consultas",
+          "Identificar áreas de mejora",
+          "Medir satisfacción del cliente",
+          "Realizar análisis de sentimiento",
+          "Proporcionar insights de negocio"
+        ]
+      },
+
+      "integraciones": {
+        "general": "Se integra con sistemas existentes:",
+        "tareas": [
+          "CRM y sistemas de gestión",
+          "Plataformas de e-commerce",
+          "Sistemas de pagos",
+          "Herramientas de marketing",
+          "Bases de datos internas",
+          "APIs de terceros"
+        ]
+      },
+
+      "personalizacion": {
+        "general": "Capacidades de personalización:",
+        "tareas": [
+          "Adaptar respuestas según el perfil del usuario",
+          "Personalizar flujos de conversación",
+          "Modificar tono y estilo de comunicación",
+          "Crear respuestas específicas por industria",
+          "Configurar reglas de negocio",
+          "Establecer protocolos de escalamiento"
+        ]
+      },
+
+      "multicanal": {
+        "general": "Presencia en múltiples canales:",
+        "tareas": [
+          "Sitio web y aplicaciones móviles",
+          "WhatsApp y Messenger",
+          "Redes sociales",
+          "Email y SMS",
+          "Sistemas de chat internos",
+          "Plataformas de mensajería empresarial"
+        ]
+      },
+
+      "seguridad_cumplimiento": {
+        "general": "Funciones de seguridad y cumplimiento:",
+        "tareas": [
+          "Protección de datos sensibles",
+          "Cumplimiento de GDPR y normativas",
+          "Encriptación de conversaciones",
+          "Autenticación de usuarios",
+          "Registro de auditoría",
+          "Backup y recuperación de datos"
+        ]
+      }
     }
   }
 }

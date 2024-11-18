@@ -1,3 +1,10 @@
+import useChatStore from "../context/chatStore";
+
+/**
+ * @fileoverview Componente ChatBox que implementa una interfaz de chat con un bot
+ * @module ChatBox
+ */
+
 import React, { useState } from "react";
 import { IconArrowsDiagonalMinimize2, IconSend } from "@tabler/icons-react";
 import Message from "./message";
@@ -5,25 +12,38 @@ import { getChatBotResponse } from "../services/chatBotService";
 import { showToast } from "../services/toastService";
 import { useToast } from "@chakra-ui/react";
 
-const INITIAL_MESSAGE = {
-  sender: "bot",
-  text: "¡Hola! ¿Cómo puedo ayudarte hoy?",
-};
-
+/**
+ * Componente que renderiza una ventana de chat con un bot
+ * @component
+ * @param {Object} props - Propiedades del componente
+ * @param {Function} props.closeChat - Función para cerrar/minimizar el chat
+ * @returns {JSX.Element} Ventana de chat
+ */
 const ChatBox = ({ closeChat }) => {
   const toast = useToast();
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([INITIAL_MESSAGE]);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const messages = useChatStore((state) => state.messages);
+  const isLoading = useChatStore((state) => state.isLoading);
+  const addMessage = useChatStore((state) => state.addMessage);
+  const setLoading = useChatStore((state) => state.setLoading);
+  const loadMessages = useChatStore((state) => state.loadMessages);
+  React.useEffect(() => {
+    loadMessages();
+  }, [loadMessages]);
 
   /**
-   * Funcion para manejar el cambio de texto en el campo de mensaje
-   * @param {*} e Evento de cambio de texto
+   * Maneja el cambio de texto en el campo de mensaje
+   * @param {Object} e - Evento de cambio
    */
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
 
+  /**
+   * Maneja el evento de presionar una tecla en el campo de mensaje
+   * @param {Object} e - Evento de teclado
+   */
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -32,30 +52,25 @@ const ChatBox = ({ closeChat }) => {
   };
 
   /**
-   * Función para enviar un mensaje y obtener una respuesta del bot
+   * Envía el mensaje al bot y procesa su respuesta
+   * @async
+   * @function
    */
   const handleSendMessage = async () => {
     const trimmedMessage = message.trim();
     if (!trimmedMessage || isLoading) return;
 
-    setIsLoading(true);
+    setLoading(true);
     try {
-      // Se actualiza el estado de los mensajes en un solo paso
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "user", text: trimmedMessage },
-      ]);
+      // Agregar mensaje del usuario
+      addMessage({ sender: "user", text: trimmedMessage });
 
-      // Obtenemos la respuesta del bot
+      // Obtener respuesta del bot
       const response = await getChatBotResponse(trimmedMessage);
 
-      // Actualizamos el estado con la respuesta del bot
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "bot", text: response },
-      ]);
+      // Agregar respuesta del bot
+      addMessage({ sender: "bot", text: response });
 
-      // Limpiar el campo de mensaje después de enviar
       setMessage("");
     } catch (e) {
       console.error(e);
@@ -68,7 +83,7 @@ const ChatBox = ({ closeChat }) => {
         toast,
       });
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -96,7 +111,7 @@ const ChatBox = ({ closeChat }) => {
             type="text"
             value={message}
             onChange={handleMessageChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             placeholder="Escribe un mensaje..."
             className="p-2 w-full rounded-md focus:outline-none"
             disabled={isLoading}

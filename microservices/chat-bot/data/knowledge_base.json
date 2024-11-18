@@ -1,0 +1,68 @@
+{
+  "saludos": {
+    "preguntas_ejemplo": [
+      "Hola",
+      "Buenos días",
+      "Buenas tardes",
+      "¿Qué tal?",
+      "¿Cómo estás?"
+    ],
+    "respuestas": {
+      "general": "¡Hola! Soy el asistente virtual de StreamApp. ¿En qué puedo ayudarte hoy?",
+      "formal": "Bienvenido a StreamApp. Estoy aquí para resolver tus dudas sobre nuestros servicios de streaming."
+    }
+  },
+  "despedidas": {
+    "preguntas_ejemplo": [
+      "Adiós",
+      "Hasta luego",
+      "Gracias, eso es todo",
+      "Chao",
+      "Nos vemos"
+    ],
+    "respuestas": {
+      "general": "¡Gracias por contactarnos! Si necesitas algo más, no dudes en volver a preguntar.",
+      "formal": "Ha sido un placer ayudarte. ¡Que tengas un excelente día!"
+    }
+  },
+  "servicios_streaming": {
+    "preguntas_ejemplo": [
+      "¿Qué planes ofrecen?",
+      "¿Cuánto cuesta la suscripción?",
+      "¿Qué servicios tienen disponibles?",
+      "¿Qué contenido tienen disponible?",
+      "¿Puedo ver en varios dispositivos?",
+      "¿Tienen período de prueba?",
+      "¿Cómo puedo cancelar mi suscripción?",
+      "¿Cómo puedo cambiar mi plan?"
+    ],
+    "respuestas": {
+      "planes": "Ofrecemos tres planes diferentes: Básico, Estándar y Premium. Cada uno con diferentes beneficios de calidad y dispositivos simultáneos.",
+      "precios": "Nuestros precios van desde $8.99 para el plan Básico, $13.99 para el Estándar y $17.99 para el Premium.",
+      "contenido": "Contamos con una amplia biblioteca de películas, series, documentales y contenido original exclusivo.",
+      "dispositivos": "Dependiendo de tu plan, puedes ver en 1, 2 o hasta 4 dispositivos simultáneamente.",
+      "prueba": "¡Sí! Ofrecemos 30 días de prueba gratis para que pruebes nuestro servicio.",
+      "cancelar": "Puedes cancelar tu suscripción en cualquier momento desde tu cuenta de StreamApp.",
+      "cambiar": "Para cambiar tu plan, ve a Configuración y selecciona el plan que deseas. Tu cambio se aplicará al inicio de tu próxima factura."
+    }
+  },
+  "soporte_tecnico": {
+    "preguntas_ejemplo": [
+      "No puedo reproducir un video",
+      "No puedo reproducir una serie",
+      "Tengo un problema con la app",
+      "La app no funciona",
+      "Problemas con el streaming",
+      "Error de conexión",
+      "¿Cómo mejoro la calidad del video?"
+    ],
+    "respuestas": {
+      "general": "Nuestro equipo de soporte técnico está disponible 24/7 para ayudarte.",
+      "conexion": "Para problemas de conexión, te recomendamos verificar tu internet y reiniciar la aplicación.",
+      "calidad": "La calidad del video se ajusta automáticamente según tu conexión, pero puedes modificarla en Configuración.",
+      "error": "Por favor, intenta cerrar y volver a abrir la aplicación. Si el problema persiste, actualiza la app o contacta a soporte.",
+      "problema": "Para ayudarte mejor, necesitaría más detalles...",
+      "recomendacion": "Te recomendamos reiniciar la aplicación y verificar tu conexión a internet."
+    }
+  }
+}

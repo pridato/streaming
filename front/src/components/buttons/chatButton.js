@@ -1,34 +1,32 @@
 import React, { useState } from "react";
 import ChatBox from "../ChatBox";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ChatButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Función para alternar el estado del chat
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <div>
-      {!isOpen && (
-        <div className="relative">
-          {/* El botón flotante */}
-          <button
-            onClick={toggleChat}
-            className={`fixed bottom-5 right-5 bg-blue-500 text-white rounded-full flex items-center justify-center transition-all duration-300 ${
-              isOpen ? "w-16 h-16" : "w-12 h-12"
-            }`}
+    <>
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            exit={{ scale: 0 }}
+            onClick={() => setIsOpen(true)}
+            className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-indigo-500/25 transition-shadow group"
           >
-            <span className="text-2xl">{isOpen ? "❌" : "💬"}</span>
-            {/* El ícono cambia cuando se abre */}
-          </button>
+            <span className="text-2xl group-hover:scale-110 transition-transform">
+              💬
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
-          {/* Mostrar el chat si está abierto */}
-        </div>
-      )}
-      {isOpen && <ChatBox closeChat={toggleChat} />}
-    </div>
+      <AnimatePresence>
+        {isOpen && <ChatBox closeChat={() => setIsOpen(false)} />}
+      </AnimatePresence>
+    </>
   );
 };
 

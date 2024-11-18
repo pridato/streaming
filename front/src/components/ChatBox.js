@@ -1,76 +1,47 @@
-import useChatStore from "../context/chatStore";
-
-/**
- * @fileoverview Componente ChatBox que implementa una interfaz de chat con un bot
- * @module ChatBox
- */
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconArrowsDiagonalMinimize2, IconSend } from "@tabler/icons-react";
 import Message from "./message";
+import useChatStore from "../context/chatStore";
 import { getChatBotResponse } from "../services/chatBotService";
 import { showToast } from "../services/toastService";
 import { useToast } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
-/**
- * Componente que renderiza una ventana de chat con un bot
- * @component
- * @param {Object} props - Propiedades del componente
- * @param {Function} props.closeChat - Función para cerrar/minimizar el chat
- * @returns {JSX.Element} Ventana de chat
- */
 const ChatBox = ({ closeChat }) => {
   const toast = useToast();
   const [message, setMessage] = useState("");
+  const { messages, isLoading, addMessage, setLoading, loadMessages } =
+    useChatStore();
 
-  const messages = useChatStore((state) => state.messages);
-  const isLoading = useChatStore((state) => state.isLoading);
-  const addMessage = useChatStore((state) => state.addMessage);
-  const setLoading = useChatStore((state) => state.setLoading);
-  const loadMessages = useChatStore((state) => state.loadMessages);
-  React.useEffect(() => {
+  useEffect(() => {
     loadMessages();
   }, [loadMessages]);
 
-  /**
-   * Maneja el cambio de texto en el campo de mensaje
-   * @param {Object} e - Evento de cambio
-   */
-  const handleMessageChange = (e) => {
-    setMessage(e.target.value);
-  };
+  useEffect(() => {
+    const scrollPosition = window.scrollY;
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = "100%";
 
-  /**
-   * Maneja el evento de presionar una tecla en el campo de mensaje
-   * @param {Object} e - Evento de teclado
-   */
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
+    return () => {
+      document.body.style.removeProperty("overflow");
+      document.body.style.removeProperty("position");
+      document.body.style.removeProperty("top");
+      document.body.style.removeProperty("width");
+      window.scrollTo(0, scrollPosition);
+    };
+  }, []);
 
-  /**
-   * Envía el mensaje al bot y procesa su respuesta
-   * @async
-   * @function
-   */
   const handleSendMessage = async () => {
     const trimmedMessage = message.trim();
     if (!trimmedMessage || isLoading) return;
 
     setLoading(true);
     try {
-      // Agregar mensaje del usuario
       addMessage({ sender: "user", text: trimmedMessage });
-
-      // Obtener respuesta del bot
       const response = await getChatBotResponse(trimmedMessage);
-
-      // Agregar respuesta del bot
       addMessage({ sender: "bot", text: response });
-
       setMessage("");
     } catch (e) {
       console.error(e);
@@ -88,44 +59,94 @@ const ChatBox = ({ closeChat }) => {
   };
 
   return (
-    <div className="fixed bottom-4 right-5 w-72 h-96 bg-white border border-gray-300 rounded-lg shadow-lg p-4">
-      <div className="flex flex-col h-full">
-        {/* Botón de cerrar (minimizar) el chat */}
-        <button
-          onClick={closeChat}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-        >
-          <IconArrowsDiagonalMinimize2 stroke={2} />
-        </button>
+    <>
+      <div
+        className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40"
+        onClick={closeChat}
+      />
 
-        {/* Área de mensajes */}
-        <div className="mt-6 flex-grow overflow-y-auto p-2 mb-2">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 100 }}
+        className="fixed bottom-0 right-0 w-full h-[85vh] 
+          sm:h-[600px] sm:max-h-[85vh] sm:w-[400px] 
+          lg:right-6 lg:bottom-6 
+          bg-slate-900 border border-slate-800 
+          rounded-t-2xl sm:rounded-2xl 
+          shadow-2xl shadow-indigo-500/10 
+          overflow-hidden z-50"
+      >
+        {/* Header */}
+        <div
+          className="bg-gradient-to-r from-slate-800 to-slate-900 px-4 py-3 
+          border-b border-slate-800 flex justify-between items-center"
+        >
+          <div className="flex flex-col">
+            <h3 className="text-white font-semibold text-base">
+              Chat Asistente
+            </h3>
+            <p className="text-slate-400 text-xs">
+              Siempre disponible para ayudarte
+            </p>
+          </div>
+          <button
+            onClick={closeChat}
+            className="p-1.5 hover:bg-slate-800 rounded-full transition-colors"
+          >
+            <IconArrowsDiagonalMinimize2
+              className="text-slate-400 w-5 h-5"
+              stroke={1.5}
+            />
+          </button>
+        </div>
+
+        {/* Messages Area */}
+        <div
+          className="h-[calc(100%-8rem)] overflow-y-auto p-3 
+          scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent"
+        >
           {messages.map((msg, index) => (
             <Message key={index} sender={msg.sender} text={msg.text} />
           ))}
         </div>
 
-        {/* Campo de texto y botón de enviar */}
-        <div className="flex items-center mt-2 border border-gray-300 rounded-3xl px-3 py-1">
-          <input
-            type="text"
-            value={message}
-            onChange={handleMessageChange}
-            onKeyDown={handleKeyPress}
-            placeholder="Escribe un mensaje..."
-            className="p-2 w-full rounded-md focus:outline-none"
-            disabled={isLoading}
-          />
-          <button
-            onClick={handleSendMessage}
-            className="bg-blue-500 text-white p-2 rounded-full disabled:opacity-50"
-            disabled={isLoading}
-          >
-            <IconSend stroke={1.5} width={25} height={25} />
-          </button>
+        {/* Input Area */}
+        <div
+          className="absolute bottom-0 left-0 right-0 p-3 
+          bg-slate-900 border-t border-slate-800"
+        >
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={(e) =>
+                e.key === "Enter" && !e.shiftKey && handleSendMessage()
+              }
+              placeholder="Escribe un mensaje..."
+              className="flex-1 bg-slate-800 text-slate-200 text-sm
+                rounded-xl px-4 py-2.5 
+                focus:outline-none focus:ring-2 focus:ring-indigo-500 
+                border border-slate-700"
+              disabled={isLoading}
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={isLoading}
+              className="p-2.5 bg-gradient-to-r from-indigo-500 to-cyan-500 
+                rounded-xl text-white disabled:opacity-50 
+                hover:shadow-lg hover:shadow-indigo-500/25 transition-shadow"
+            >
+              <IconSend
+                stroke={1.5}
+                className={`w-5 h-5 ${isLoading ? "animate-pulse" : ""}`}
+              />
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </>
   );
 };
 

@@ -42,7 +42,7 @@ const Pricing = () => {
   };
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-4" id="precios">
       {/* Contenedor principal con padding vertical y horizontal */}
       <div className="max-w-7xl mx-auto">
         {/* Título de la sección de precios */}

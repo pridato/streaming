@@ -10,7 +10,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
       <Header />
       <Hero />
-      <Features />
+      <Features id="caracteristicas" />
       <Stats />
       <CTA />
       <Pricing />

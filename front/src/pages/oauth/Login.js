@@ -104,24 +104,6 @@ const Login = () => {
             alt="Login Visual"
             className="absolute inset-0 w-full h-full object-contain p-12 animate-float"
           />
-          <div className="relative z-10 p-12 text-white mt-auto">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text"
-            >
-              Bienvenido de nuevo
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="text-lg text-gray-400"
-            >
-              Accede a tu cuenta para continuar tu viaje con nosotros
-            </motion.p>
-          </div>
         </motion.div>
 
         {/* Sección del Formulario */}

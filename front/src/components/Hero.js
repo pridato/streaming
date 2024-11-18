@@ -3,7 +3,7 @@ import ChatButton from "./buttons/chatButton";
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden px-6 pt-24 pb-20">
+    <section className="flex items-center justify-center overflow-hidden px-6 pt-24 pb-20 h-screen">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-500/20 via-slate-900/0 to-transparent"></div>
       <div className="mx-auto max-w-7xl">
         <div className="text-center">

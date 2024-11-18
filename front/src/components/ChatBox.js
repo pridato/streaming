@@ -5,12 +5,16 @@ import { getChatBotResponse } from "../services/chatBotService";
 import { showToast } from "../services/toastService";
 import { useToast } from "@chakra-ui/react";
 
+const INITIAL_MESSAGE = {
+  sender: "bot",
+  text: "¡Hola! ¿Cómo puedo ayudarte hoy?",
+};
+
 const ChatBox = ({ closeChat }) => {
   const toast = useToast();
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
-    { sender: "bot", text: "¡Hola! ¿Cómo puedo ayudarte hoy?" },
-  ]);
+  const [messages, setMessages] = useState([INITIAL_MESSAGE]);
+  const [isLoading, setIsLoading] = useState(false);
 
   /**
    * Funcion para manejar el cambio de texto en el campo de mensaje
@@ -20,20 +24,30 @@ const ChatBox = ({ closeChat }) => {
     setMessage(e.target.value);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   /**
    * Función para enviar un mensaje y obtener una respuesta del bot
    */
   const handleSendMessage = async () => {
-    if (message === "") return;
+    const trimmedMessage = message.trim();
+    if (!trimmedMessage || isLoading) return;
+
+    setIsLoading(true);
     try {
       // Se actualiza el estado de los mensajes en un solo paso
       setMessages((prevMessages) => [
         ...prevMessages,
-        { sender: "user", text: message },
+        { sender: "user", text: trimmedMessage },
       ]);
 
       // Obtenemos la respuesta del bot
-      const response = await getChatBotResponse(message);
+      const response = await getChatBotResponse(trimmedMessage);
 
       // Actualizamos el estado con la respuesta del bot
       setMessages((prevMessages) => [
@@ -53,6 +67,8 @@ const ChatBox = ({ closeChat }) => {
         isClosable: true,
         toast,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,12 +96,15 @@ const ChatBox = ({ closeChat }) => {
             type="text"
             value={message}
             onChange={handleMessageChange}
+            onKeyPress={handleKeyPress}
             placeholder="Escribe un mensaje..."
             className="p-2 w-full rounded-md focus:outline-none"
+            disabled={isLoading}
           />
           <button
             onClick={handleSendMessage}
-            className="bg-blue-500 text-white p-2 rounded-full"
+            className="bg-blue-500 text-white p-2 rounded-full disabled:opacity-50"
+            disabled={isLoading}
           >
             <IconSend stroke={1.5} width={25} height={25} />
           </button>

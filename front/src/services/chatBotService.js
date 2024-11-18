@@ -7,16 +7,15 @@ import axios from "axios";
  */
 export const getChatBotResponse = async (prompt) => {
   try {
-    console.log("http://127.0.0.1:5050/chat-bot?prompt=" + prompt);
     const response = await axios.get(
-      `http://127.0.0.1:5050/chat-bot?prompt=${prompt}`
+      `http://localhost:5050/chat?prompt=${prompt}`
     );
 
-    console.log(response);
-    if (response.data.response.error) {
-      throw new Error(response.data.response.error);
+    console.log(response.data.response);
+    if (response.data.error) {
+      throw new Error(response.data.error);
     }
-    return response.data?.response[0].generated_text;
+    return response.data.response;
   } catch (e) {
     console.error(e);
     throw e;

@@ -1,29 +1,26 @@
-# Plataforma de Streaming
+# Plataforma de Suscripción Premium
 
-Este es un proyecto de **plataforma de streaming** desarrollado con **Angular**. El objetivo es construir una aplicación similar a YouTube, que permita a los usuarios ver videos, interactuar con el contenido y gestionar listas de reproducción. A lo largo del desarrollo se agregarán funcionalidades como autenticación de usuarios, recomendación de videos y más.
+Plataforma moderna de suscripción con arquitectura de microservicios, que integra un sistema de autenticación en Java, un chatbot en Python y un frontend en React. Permite a los usuarios suscribirse a diferentes planes y gestionar sus suscripciones.
 
 ## Características
 
-- Visualización de videos en tiempo real.
-- Gestión de contenido de video (subir, listar, etc.).
-- Interacción con el contenido (comentarios, likes, etc.).
-- Diseño modular utilizando Angular.
-- Implementación futura de servicios como **Kubernetes**, **Docker**, **Redis** y **Kafka** para escalabilidad y rendimiento.
+### Frontend
+
+- **Inicio de sesión y registro**: autenticación de usuarios.
+- **Checkout**: gestión de suscripciones y pagos.
+
+### Backend
+
+- **Autenticación**: gestión de usuarios y suscripciones con JWT.
+- **Chatbot**: gestión de consultas con python.
+- **Pagos**: integración con Stripe y Paypal.
 
 ## Tecnologías
 
-- **Frontend**: Angular
-- **Backend** (futuro): Java (Spring Boot)
-- **Base de datos**: MySQL o PostgreSQL (relacional)
-- **Otros** (futuros): Redis, Kafka, Kubernetes, Docker
-
-## Requisitos
-
-Antes de comenzar con el desarrollo, asegúrate de tener instalados los siguientes programas:
-
-- **Node.js** (preferiblemente LTS)
-- **pnpm** (gestor de dependencias)
-- **Angular CLI** (si no está instalado, usa `pnpm add -g @angular/cli`)
+- **Frontend**: React, Zustand, tailwind
+- **Backend**: Spring Boot, JWT
+- **Base de datos**: MySQL, redis
+- **Chatbot**: Python, Flask
 
 ## Instalación
 
@@ -34,7 +31,7 @@ Antes de comenzar con el desarrollo, asegúrate de tener instalados los siguient
    cd plataforma-streaming
    ```
 
-2. Instala las dependencias utilizando **pnpm**:
+2. Instala las dependencias:
 
    ```bash
    pnpm install
@@ -43,7 +40,19 @@ Antes de comenzar con el desarrollo, asegúrate de tener instalados los siguient
 3. Inicia el servidor de desarrollo:
 
    ```bash
-   ng serve
+   pnpm run dev
    ```
 
-   Esto iniciará la aplicación en `http://localhost:4200`.
+4. Accede a la aplicación en `http://localhost:5173`.
+
+## Funcionalidades
+
+- Inicio de sesión y registro.
+- Checkout con Stripe y Paypal.
+- Chatbot con python.
+
+## Seguridad
+
+- Autenticación con JWT.
+- Protección de rutas con autenticación.
+- Cookies para almacenar el token de autenticación.

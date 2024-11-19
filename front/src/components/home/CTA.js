@@ -1,4 +1,4 @@
-import ChatButton from "./buttons/chatButton";
+import ChatButton from "../common/buttons/chatButton";
 
 const CTA = () => {
   return (

@@ -1,10 +1,9 @@
-import Hero from "../../components/Hero";
-import Features from "../../components/Features";
-import Stats from "../../components/Stats";
-import CTA from "../../components/CTA";
-import Header from "../../components/Header";
-import Pricing from "../../components/Pricing";
-
+import Hero from "../../components/home/Hero";
+import Features from "../../components/home/Features";
+import Stats from "../../components/home/Stats";
+import CTA from "../../components/home/CTA";
+import Header from "../../components/layout/Header";
+import Pricing from "../../components/home/Pricing";
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { IconArrowsDiagonalMinimize2, IconSend } from "@tabler/icons-react";
 import Message from "./message";
-import useChatStore from "../context/chatStore";
-import { getChatBotResponse } from "../services/chatBotService";
-import { showToast } from "../services/toastService";
+import useChatStore from "../../context/chatStore";
+import { getChatBotResponse } from "../../services/chatBotService";
+import { showToast } from "../../services/toastService";
 import { useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 

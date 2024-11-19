@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import ChatButton from "./buttons/chatButton";
+import ChatButton from "../common/buttons/chatButton";
 
 const Hero = () => {
   return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Plan from "./Plan";
+import Plan from "./PlanCard";
 const Pricing = () => {
   const [loading, setLoading] = useState(false);
 

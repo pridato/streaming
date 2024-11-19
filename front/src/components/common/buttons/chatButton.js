@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ChatBox from "../ChatBox";
+import ChatBox from "../../chat/ChatBox";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ChatButton = () => {

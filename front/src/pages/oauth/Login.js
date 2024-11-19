@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "../../components/LoginForm";
+import LoginForm from "../../components/common/forms/LoginForm";
 import { authenticateUser, getGoogleUrl } from "../../services/oauthService";
 import { useToast } from "@chakra-ui/react";
 import { showToast } from "../../services/toastService";

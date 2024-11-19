@@ -12,51 +12,54 @@ const PaymentForm = ({ onSubmit, loading }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Formateo específico para cada campo
     let formattedValue = value;
-    if (name === "cardNumber") {
-      formattedValue = value
-        .replace(/\s/g, "")
-        .replace(/(\d{4})/g, "$1 ")
-        .trim();
-    } else if (name === "cardExpiry") {
-      formattedValue = value
-        .replace(/\D/g, "")
-        .replace(/(\d{2})(\d)/, "$1/$2")
-        .slice(0, 5);
-    } else if (name === "cardCvc") {
-      formattedValue = value.replace(/\D/g, "").slice(0, 3);
+
+    switch (name) {
+      case "cardNumber":
+        formattedValue = value
+          .replace(/\s/g, "")
+          .replace(/(\d{4})/g, "$1 ")
+          .trim();
+        break;
+      case "cardExpiry":
+        formattedValue = value
+          .replace(/\D/g, "")
+          .replace(/(\d{2})(\d)/, "$1/$2")
+          .slice(0, 5);
+        break;
+      case "cardCvc":
+        formattedValue = value.replace(/\D/g, "").slice(0, 3);
+        break;
+      default:
+        break;
     }
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: formattedValue,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: formattedValue }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
+  const inputClasses =
+    "w-full px-2 py-1 bg-slate-900 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-transparent";
+  const labelClasses = "block text-xs font-medium text-gray-400 mb-1";
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-slate-800 rounded-lg p-6 border border-gray-700"
+      className="bg-slate-800 rounded-lg p-3 border border-gray-700"
     >
-      <h2 className="text-lg font-medium text-white mb-6">
+      <h2 className="text-sm font-medium text-white mb-3">
         Información de Pago
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Nombre del titular */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit(formData);
+        }}
+        className="space-y-2"
+      >
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-400 mb-2"
-          >
+          <label htmlFor="name" className={labelClasses}>
             Nombre del titular
           </label>
           <input
@@ -65,20 +68,14 @@ const PaymentForm = ({ onSubmit, loading }) => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 bg-slate-900 border border-gray-700 rounded-lg 
-              text-white placeholder-gray-500 focus:outline-none focus:ring-2 
-              focus:ring-purple-500 focus:border-transparent transition-all"
+            className={inputClasses}
             placeholder="John Doe"
             required
           />
         </div>
 
-        {/* Email */}
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-400 mb-2"
-          >
+          <label htmlFor="email" className={labelClasses}>
             Email
           </label>
           <input
@@ -87,20 +84,14 @@ const PaymentForm = ({ onSubmit, loading }) => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 bg-slate-900 border border-gray-700 rounded-lg 
-              text-white placeholder-gray-500 focus:outline-none focus:ring-2 
-              focus:ring-purple-500 focus:border-transparent transition-all"
+            className={inputClasses}
             placeholder="john@example.com"
             required
           />
         </div>
 
-        {/* Número de tarjeta */}
         <div>
-          <label
-            htmlFor="cardNumber"
-            className="block text-sm font-medium text-gray-400 mb-2"
-          >
+          <label htmlFor="cardNumber" className={labelClasses}>
             Número de tarjeta
           </label>
           <input
@@ -109,22 +100,16 @@ const PaymentForm = ({ onSubmit, loading }) => {
             name="cardNumber"
             value={formData.cardNumber}
             onChange={handleChange}
-            className="w-full px-4 py-2 bg-slate-900 border border-gray-700 rounded-lg 
-              text-white placeholder-gray-500 focus:outline-none focus:ring-2 
-              focus:ring-purple-500 focus:border-transparent transition-all"
+            className={inputClasses}
             placeholder="4242 4242 4242 4242"
             maxLength="19"
             required
           />
         </div>
 
-        {/* Fecha y CVC */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
           <div>
-            <label
-              htmlFor="cardExpiry"
-              className="block text-sm font-medium text-gray-400 mb-2"
-            >
+            <label htmlFor="cardExpiry" className={labelClasses}>
               Fecha de expiración
             </label>
             <input
@@ -133,19 +118,14 @@ const PaymentForm = ({ onSubmit, loading }) => {
               name="cardExpiry"
               value={formData.cardExpiry}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-slate-900 border border-gray-700 rounded-lg 
-                text-white placeholder-gray-500 focus:outline-none focus:ring-2 
-                focus:ring-purple-500 focus:border-transparent transition-all"
+              className={inputClasses}
               placeholder="MM/YY"
               maxLength="5"
               required
             />
           </div>
           <div>
-            <label
-              htmlFor="cardCvc"
-              className="block text-sm font-medium text-gray-400 mb-2"
-            >
+            <label htmlFor="cardCvc" className={labelClasses}>
               CVC
             </label>
             <input
@@ -154,9 +134,7 @@ const PaymentForm = ({ onSubmit, loading }) => {
               name="cardCvc"
               value={formData.cardCvc}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-slate-900 border border-gray-700 rounded-lg 
-                text-white placeholder-gray-500 focus:outline-none focus:ring-2 
-                focus:ring-purple-500 focus:border-transparent transition-all"
+              className={inputClasses}
               placeholder="123"
               maxLength="3"
               required
@@ -164,18 +142,14 @@ const PaymentForm = ({ onSubmit, loading }) => {
           </div>
         </div>
 
-        {/* Botón de pago */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 
-            bg-purple-600 rounded-lg text-white font-medium
-            hover:bg-purple-700 transition-colors duration-200
-            disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 mt-2 bg-purple-600 rounded-lg text-white text-sm font-medium hover:bg-purple-700 transition-colors duration-200 disabled:opacity-50"
         >
           {loading ? (
             <>
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
                 <circle
                   className="opacity-25"
                   cx="12"

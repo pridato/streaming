@@ -1,7 +1,17 @@
 import PaymentForm from "../Payment/PaymentForm";
 import OrderSummary from "./OrderSummary";
 
-const CheckoutForm = ({ setCurrentStep }) => {
+const CheckoutForm = ({
+  setCurrentStep,
+  onPayment,
+  setName,
+  setEmail,
+  setCardNumber,
+  setCardExpiry,
+  setCardCvc,
+  setError,
+  error,
+}) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
       {/* Columna izquierda con el formulario de pago */}
@@ -35,7 +45,17 @@ const CheckoutForm = ({ setCurrentStep }) => {
           </div>
 
           {/* Formulario de pago que avanza al paso 3 cuando es exitoso */}
-          <PaymentForm onSuccess={() => setCurrentStep(3)} />
+          <PaymentForm
+            onSuccess={() => setCurrentStep(3)}
+            onPayment={() => onPayment()}
+            setName={setName}
+            setEmail={setEmail}
+            setCardNumber={setCardNumber}
+            setCardExpiry={setCardExpiry}
+            setCardCvc={setCardCvc}
+            setError={setError}
+            error={error}
+          />
         </div>
       </div>
       {/* Columna derecha con el resumen de la orden */}

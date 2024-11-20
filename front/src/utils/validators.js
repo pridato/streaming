@@ -58,3 +58,45 @@ export function validateCardNumber(cardNumber) {
 
   return "Tarjeta no soportada";
 }
+
+/**
+ * Valida la fecha de expiración de una tarjeta de crédito
+ * @param {string} cardExpiry - La fecha de expiración a validar
+ * @returns {string|undefined} - Mensaje de error si la fecha es inválida, undefined si es válida
+ * @example
+ * validateCardExpiry('12/23') // undefined
+ * validateCardExpiry('13/23') // 'Fecha inválida'
+ * validateCardExpiry('') // 'Fecha vacía'
+ */
+export function validateCardExpiry(cardExpiry) {
+  if (!cardExpiry) return "Fecha vacía";
+
+  const [month, year] = cardExpiry.split("/");
+
+  if (!month || !year) return "Fecha inválida";
+
+  const currentYear = new Date().getFullYear() % 100;
+  const currentMonth = new Date().getMonth() + 1;
+
+  if (year < currentYear || (year === currentYear && month < currentMonth)) {
+    return "Fecha expirada";
+  } else if (month < 1 || month > 12) {
+    return "Mes inválido";
+  } else if (year < currentYear || year > currentYear + 10) {
+    return "Año inválido";
+  }
+}
+
+/**
+ * Valida el código CVC de una tarjeta de crédito
+ * @param {string} cvc - El código CVC a validar
+ * @returns {string|undefined} - Mensaje de error si el CVC es inválido, undefined si es válido
+ * @example
+ * validateCvc('123') // undefined
+ * validateCvc('') // 'CVC vacío'
+ * validateCvc('12') // 'CVC inválido'
+ */
+export function validateCvc(cvc) {
+  if (!cvc) return "CVC vacío";
+  if (!/^\d{3,4}$/.test(cvc)) return "CVC inválido";
+}

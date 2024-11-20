@@ -1,5 +1,10 @@
 import { motion } from "framer-motion";
-import { validateCardNumber, validateEmail } from "../../../utils/validators";
+import {
+  validateCardExpiry,
+  validateCardNumber,
+  validateCvc,
+  validateEmail,
+} from "../../../utils/validators";
 import { useState } from "react";
 
 const PaymentForm = ({
@@ -68,13 +73,7 @@ const PaymentForm = ({
         Información de Pago
       </h2>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit(e);
-        }}
-        className="space-y-2"
-      >
+      <form onSubmit={onSubmit} className="space-y-2">
         {/* Campo para el nombre del titular de la tarjeta */}
         <div>
           <label htmlFor="name" className={labelClasses}>
@@ -150,7 +149,10 @@ const PaymentForm = ({
               Fecha de expiración
             </label>
             <input
-              onChange={(e) => setCardExpiry(e.target.value)}
+              onChange={(e) => {
+                setCardExpiry(e.target.value);
+                setError(validateCardExpiry(e.target.value));
+              }}
               type="text"
               id="cardExpiry"
               name="cardExpiry"
@@ -166,7 +168,10 @@ const PaymentForm = ({
               CVC
             </label>
             <input
-              onChange={(e) => setCardCvc(e.target.value)}
+              onChange={(e) => {
+                setCardCvc(e.target.value);
+                setError(validateCvc(e.target.value));
+              }}
               type="text"
               id="cardCvc"
               name="cardCvc"
@@ -180,7 +185,10 @@ const PaymentForm = ({
 
         {/* Botón de pago */}
         <button
-          onClick={onPayment}
+          onClick={(e) => {
+            onPayment(e);
+            e.preventDefault();
+          }}
           className="w-full flex items-center justify-center gap-2 px-3 py-2 mt-2 bg-purple-600 rounded-lg text-white text-sm font-medium hover:bg-purple-700 transition-colors duration-200"
         >
           Pagar ahora

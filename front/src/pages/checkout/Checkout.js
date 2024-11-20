@@ -26,10 +26,10 @@ const Checkout = () => {
   const handlePayment = () => {
     console.log(error);
     if (error) {
-      console.log("Error en el pago" + JSON.stringify(paymentFormData));
+      console.log("Error en el pago" + paymentFormData);
       return;
     }
-    console.log("Pago exitoso" + JSON.stringify(paymentFormData));
+    console.log(paymentFormData);
   };
 
   return (

@@ -46,8 +46,8 @@ public class AuthService {
     /**
      * Función para el logueo de un usuario
      *
-     * @param username nombre del usuario
-     * @param password contraseña del usuario
+     * @param username  nombre del usuario
+     * @param password  contraseña del usuario
      * @param browserId id del navegador
      * @return true si el usuario se loguea correctamente, false en caso contrario
      */
@@ -84,7 +84,8 @@ public class AuthService {
 
         try {
             /**
-             * importante para el redirect lo enviamos otra vez a spring para ver que hacer con el objeto del usuario. Parms importantes a leer
+             * importante para el redirect lo enviamos otra vez a spring para ver que hacer
+             * con el objeto del usuario. Parms importantes a leer
              * code: codigo de autorizacion
              * scope: permisos solicitados
              * authuser: usuario autenticado al utilizar diferentes flujos
@@ -99,34 +100,30 @@ public class AuthService {
 
     /**
      * Metodo para loguearse con Google.
-     * @param code Codigo de autorizacion.
-     * @param scope Permisos solicitados.
+     * 
+     * @param code     Codigo de autorizacion.
+     * @param scope    Permisos solicitados.
      * @param authuser Usuario autenticado al utilizar diferentes flujos.
-     * @param prompt Indica si se debe mostrar la pantalla de consentimiento.
+     * @param prompt   Indica si se debe mostrar la pantalla de consentimiento.
      * @return Objeto con el usuario logueado y su token.
      */
-    public RedirectView loginGoogle(HttpServletResponse response, String code, String scope, String authuser, String prompt) {
+    public RedirectView loginGoogle(HttpServletResponse response, String code, String scope, String authuser,
+            String prompt) {
 
-        // Creamos una URL para acceder al token que nos habilita el acceso a la información del usuario
+        // Creamos una URL para acceder al token que nos habilita el acceso a la
+        // información del usuario
         HttpEntity<MultiValueMap<String, String>> request = createRequest(code);
         String accessToken = getAccessToken(request);
         Map<String, Object> userInfo = getUserInfo(accessToken);
 
         // Generamos el token de acceso para el usuario
-        String UserAccessToken = tokenService.generateAccessToken(userInfo.get("email").toString(), googleClientBrowserId);
+        String UserAccessToken = tokenService.generateAccessToken(userInfo.get("email").toString(),
+                googleClientBrowserId);
 
         // Almacenamos el token en Redis
         redisService.set(googleClientBrowserId, UserAccessToken);
-        logger.info("Usuario logueado: {}", redisService.get(googleClientBrowserId));
 
         // Establecemos el UserAccessToken en una cookie
-        Cookie cookie = new Cookie("UserAccessToken", UserAccessToken);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(86400); // 24 horas
-        cookie.setSecure(true);
-
-        response.addCookie(cookie);
 
         // devolvemos un redirect con los params email y jwt
         return new RedirectView("http://localhost:3000");
@@ -134,10 +131,11 @@ public class AuthService {
 
     /**
      * metodo para generar request de intercambio de token
+     * 
      * @param code -> codigo de autorizacion
      * @return la entidad http creada
      */
-    private  HttpEntity<MultiValueMap<String, String>> createRequest(String code) {
+    private HttpEntity<MultiValueMap<String, String>> createRequest(String code) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -153,10 +151,11 @@ public class AuthService {
 
     /**
      * metodo para obtener el token de acceso a partir del request
+     * 
      * @param request -> request creada createRequest
      * @return el token de acceso
      */
-    private String getAccessToken(HttpEntity<MultiValueMap<String, String>> request ) {
+    private String getAccessToken(HttpEntity<MultiValueMap<String, String>> request) {
         // tokenUrl => globales
         try {
             ResponseEntity<Map> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, request, Map.class);
@@ -165,7 +164,7 @@ public class AuthService {
                 throw new RuntimeException("Error al obtener el token de acceso");
             }
             return (String) tokenResponse.get("access_token");
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
 
@@ -174,6 +173,7 @@ public class AuthService {
 
     /**
      * metodo para obtener la informacion del usuario a partir del token de acceso
+     * 
      * @param accessToken -> token de acceso
      * @return la informacion del usuario
      */
@@ -183,7 +183,8 @@ public class AuthService {
 
         HttpEntity<String> userInfoRequest = new HttpEntity<>(userInfoHeaders);
 
-        ResponseEntity<Map> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, userInfoRequest, Map.class);
+        ResponseEntity<Map> userInfoResponse = restTemplate.exchange(userInfoUrl, HttpMethod.GET, userInfoRequest,
+                Map.class);
         return (Map<String, Object>) userInfoResponse.getBody();
     }
 

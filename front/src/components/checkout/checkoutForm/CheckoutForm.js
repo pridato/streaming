@@ -2,8 +2,7 @@ import PaymentForm from "../Payment/PaymentForm";
 import OrderSummary from "./OrderSummary";
 
 const CheckoutForm = ({
-  setCurrentStep,
-  onPayment,
+  onSubmit,
   setName,
   setEmail,
   setCardNumber,
@@ -46,8 +45,7 @@ const CheckoutForm = ({
 
           {/* Formulario de pago que avanza al paso 3 cuando es exitoso */}
           <PaymentForm
-            onSuccess={() => setCurrentStep(3)}
-            onPayment={() => onPayment()}
+            onSubmit={onSubmit}
             setName={setName}
             setEmail={setEmail}
             setCardNumber={setCardNumber}

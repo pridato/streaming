@@ -1,6 +1,7 @@
 import axios from "axios";
-import { API_URL } from "../globals/globals";
+import { API_URL, STRIPE_URL } from "../globals/globals";
 import { getBrowserId } from "./utils";
+import { getCookie } from "./cookiesService";
 
 /**
  * Funcion para manejar el login y enviarlo al oauth para que este lo valide
@@ -23,6 +24,34 @@ export const authenticateUser = async (username, password) => {
   });
   return response.data;
 };
+
+export function getUserData() {
+  // obtener cookie UserAccessToken
+  const cookie = getCookie("UserAccessToken");
+  console.log(cookie);
+  return cookie;
+}
+
+/**
+ * Obtiene el token de acceso del usuario actual
+ * @returns {Promise<Object>} Datos del token de acceso del usuario
+ * @throws {Error} Si ocurre un error en la petición o la respuesta no es válida
+ * @description
+ * Esta función realiza una petición al servidor de autenticación para obtener
+ * el token de acceso del usuario actual. Incluye el ID del navegador en los
+ * headers para identificar la sesión.
+ */
+export async function getUserAccessToken() {
+  const response = await axios.get(
+    `${STRIPE_URL}/oauth/get-user-access-token`,
+    {
+      headers: {
+        "browser-id": getBrowserId(),
+      },
+    }
+  );
+  return response.data;
+}
 
 /**
  * Función para autenticar un usuario con google

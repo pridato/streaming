@@ -42,6 +42,7 @@ const Login = () => {
         const response = await authenticateUser(username, password);
         // TODO guardar el response en una cookie para guardar la sesion en un authContext
         console.log(response);
+        // guardar
         navigate("/");
       } catch (error) {
         console.error(error);

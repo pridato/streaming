@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const Plan = ({ plan }) => {
+const Plan = ({ plan, onSubscribe }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -56,6 +56,10 @@ const Plan = ({ plan }) => {
       {/* Pie con botón */}
       <div className="p-8 border-t border-gray-800">
         <a
+          onClick={() => {
+            onSubscribe(plan);
+            console.log("ea?");
+          }}
           href="/checkout"
           className="w-full flex items-center justify-center gap-2 px-4 py-3 
             bg-[#1a1a1a] border border-gray-800 rounded-lg text-gray-300

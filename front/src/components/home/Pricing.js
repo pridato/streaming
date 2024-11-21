@@ -1,8 +1,6 @@
-import { useState } from "react";
 import Plan from "./PlanCard";
+import { getUserData } from "../../services/oauthService";
 const Pricing = () => {
-  const [loading, setLoading] = useState(false);
-
   const plans = [
     {
       name: "Plan Básico",
@@ -26,19 +24,15 @@ const Pricing = () => {
 
   /**
    * Maneja el proceso de suscripción a un plan
-   * @param {string} priceId - El ID del precio de Stripe para el plan seleccionado
+   * @param {Object} plan - Plan seleccionado
    * @returns {Promise<void>}
    * @throws {Error} Si hay un error durante el proceso de suscripción
    * @description Este método maneja la lógica de suscripción cuando un usuario selecciona un plan.
    * Actualmente está vacío y necesita implementación.
    */
-  const handleSubscription = async (priceId) => {
-    try {
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+  const handleSubscription = async (plan) => {
+    console.log("Suscripción al plan:", plan);
+    getUserData();
   };
 
   return (
@@ -57,7 +51,6 @@ const Pricing = () => {
               key={plan.priceId}
               plan={plan}
               onSubscribe={handleSubscription}
-              loading={loading}
             />
           ))}
         </div>

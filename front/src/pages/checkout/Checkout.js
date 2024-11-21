@@ -2,6 +2,9 @@ import { useState } from "react";
 import CheckoutSteps from "../../components/checkout/CheckoutSteps";
 import CheckoutForm from "../../components/checkout/checkoutForm/CheckoutForm";
 import CheckoutHeader from "../../components/checkout/CheckoutHeader";
+import { showToast } from "../../services/toastService";
+import { useToast } from "@chakra-ui/react";
+import { getUserAccessToken } from "../../services/oauthService";
 
 const Checkout = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -15,6 +18,8 @@ const Checkout = () => {
 
   const [error, setError] = useState(null);
 
+  const toast = useToast();
+
   const paymentFormData = {
     name,
     email,
@@ -23,13 +28,27 @@ const Checkout = () => {
     cardCvc,
   };
 
-  const handlePayment = () => {
-    console.log(error);
+  const handlePayment = async (e) => {
+    console.log(paymentFormData);
     if (error) {
-      console.log("Error en el pago" + paymentFormData);
       return;
     }
-    console.log(paymentFormData);
+    e.preventDefault();
+
+    try {
+      // await createPaymentIntent();
+      const user_access_token = await getUserAccessToken();
+      console.log(user_access_token);
+    } catch (error) {
+      showToast({
+        title: "Error",
+        description: "Ocurrió un error al procesar el pago",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        toast,
+      });
+    }
   };
 
   return (
@@ -38,15 +57,14 @@ const Checkout = () => {
         <CheckoutHeader />
         <CheckoutSteps currentStep={currentStep} />
         <CheckoutForm
-          error={error}
-          setError={setError}
+          onSubmit={handlePayment}
           setName={setName}
           setEmail={setEmail}
           setCardNumber={setCardNumber}
           setCardExpiry={setCardExpiry}
           setCardCvc={setCardCvc}
-          setCurrentStep={setCurrentStep}
-          onPayment={handlePayment}
+          setError={setError}
+          error={error}
         />
       </div>
     </div>

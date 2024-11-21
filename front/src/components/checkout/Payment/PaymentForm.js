@@ -9,7 +9,6 @@ import { useState } from "react";
 
 const PaymentForm = ({
   onSubmit,
-  onPayment,
   setName,
   setEmail,
   setCardNumber,
@@ -73,7 +72,7 @@ const PaymentForm = ({
         Información de Pago
       </h2>
 
-      <form onSubmit={onSubmit} className="space-y-2">
+      <form className="space-y-2" onSubmit={onSubmit}>
         {/* Campo para el nombre del titular de la tarjeta */}
         <div>
           <label htmlFor="name" className={labelClasses}>
@@ -185,10 +184,7 @@ const PaymentForm = ({
 
         {/* Botón de pago */}
         <button
-          onClick={(e) => {
-            onPayment(e);
-            e.preventDefault();
-          }}
+          type="submit"
           className="w-full flex items-center justify-center gap-2 px-3 py-2 mt-2 bg-purple-600 rounded-lg text-white text-sm font-medium hover:bg-purple-700 transition-colors duration-200"
         >
           Pagar ahora

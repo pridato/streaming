@@ -43,12 +43,7 @@ export function getUserData() {
  */
 export async function getUserAccessToken() {
   const response = await axios.get(
-    `${STRIPE_URL}/oauth/get-user-access-token`,
-    {
-      headers: {
-        "browser-id": getBrowserId(),
-      },
-    }
+    `${STRIPE_URL}/oauth/get_user_access_token?browser_id=${getBrowserId()}`
   );
   return response.data;
 }

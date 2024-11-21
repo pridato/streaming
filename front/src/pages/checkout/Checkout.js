@@ -40,6 +40,7 @@ const Checkout = () => {
       const user_access_token = await getUserAccessToken();
       console.log(user_access_token);
     } catch (error) {
+      console.log(error);
       showToast({
         title: "Error",
         description: "Ocurrió un error al procesar el pago",

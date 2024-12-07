@@ -1,36 +1,22 @@
 import { STRIPE_URL } from "../globals/globals";
+import axios from "axios";
 
 /**
- * Crea una intención de pago utilizando la API de Stripe
- * @param {number} amount - Cantidad a cobrar en centavos (ej: 1000 = 10€)
- * @returns {Promise<string>} Client secret necesario para completar el pago
- * @throws {Error} Si ocurre un error en la petición o la respuesta no es válida
- * @description
- * Esta función se comunica con el servidor de pagos para iniciar una nueva
- * transacción en Stripe. Envía la cantidad a cobrar y devuelve un client secret
- * que se utilizará para completar el pago de forma segura en el frontend.
+ * Procesa un pago con Stripe usando los datos de tarjeta proporcionados
+ *
+ * @param {Object} params - Parámetros del pago
+ * @param {number} params.amount - Monto a cobrar en centavos
+ * @param {string} params.cardNumber - Número de la tarjeta de crédito
+ * @param {string} params.cardExpiry - Fecha de expiración en formato MM/YY
+ * @param {string} params.cardCvc - Código de seguridad de la tarjeta
+ * @returns {Promise} Promesa que resuelve con la respuesta del servidor de Stripe
+ * @throws {Error} Si ocurre un error al procesar el pago
  */
-export const createPaymentIntent = async (amount) => {
-  try {
-    const response = await fetch(STRIPE_URL + "/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: amount,
-        currency: "eur",
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error al crear el payment intent");
-    }
-
-    const data = await response.json();
-    return data.clientSecret;
-  } catch (error) {
-    console.error("Error:", error);
-    throw error;
-  }
-};
+export function process_payment({ amount, cardNumber, cardExpiry, cardCvc }) {
+  return axios.post(STRIPE_URL + "stripe/process-payment", {
+    amount: amount,
+    cardNumber: cardNumber,
+    cardExpiry: cardExpiry,
+    cardCvc: cardCvc,
+  });
+}

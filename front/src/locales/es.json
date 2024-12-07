@@ -1,0 +1,38 @@
+{
+  "header": {
+    "navigation": {
+      "home": "Inicio",
+      "features": "Características",
+      "prices": "Precios",
+      "products": "Productos",
+      "language": "Idioma",
+      "login": "Iniciar sesión",
+      "products_list": {
+        "english": "Inglés",
+        "spanish": "Español"
+      }
+    }
+  },
+  "products": {
+    "chatbot": {
+      "name": "Chatbot",
+      "description": "Asistente conversacional automatizado para tu sitio web."
+    },
+    "livechat": {
+      "name": "Chat en vivo",
+      "description": "Comunicación en tiempo real con tus clientes."
+    },
+    "emailAutomation": {
+      "name": "Automatización de correos",
+      "description": "Campañas de marketing por correo electrónico automatizadas."
+    },
+    "meetingManager": {
+      "name": "Gestor de reuniones",
+      "description": "Agenda y gestiona reuniones sin esfuerzo."
+    },
+    "whatsappAPI": {
+      "name": "API de WhatsApp",
+      "description": "Integra mensajes de WhatsApp en tu plataforma."
+    }
+  }
+}

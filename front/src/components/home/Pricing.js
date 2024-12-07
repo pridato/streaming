@@ -1,6 +1,9 @@
 import Plan from "./PlanCard";
 import { getUserData } from "../../services/oauthService";
+import { useCheckoutStore } from "../../context/checkoutStore";
 const Pricing = () => {
+  const { addToCart } = useCheckoutStore();
+
   const plans = [
     {
       name: "Plan Básico",
@@ -31,8 +34,7 @@ const Pricing = () => {
    * Actualmente está vacío y necesita implementación.
    */
   const handleSubscription = async (plan) => {
-    console.log("Suscripción al plan:", plan);
-    getUserData();
+    addToCart(plan);
   };
 
   return (

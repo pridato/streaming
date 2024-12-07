@@ -1,4 +1,4 @@
-import zustand from "zustand";
+import { create } from "zustand";
 
 /**
  * Custom hook para manejar el estado del carrito de compras
@@ -8,7 +8,7 @@ import zustand from "zustand";
  * @property {Function} removeFromCart - Elimina un producto del carrito por ID
  * @property {Function} clearCart - Vacía completamente el carrito
  */
-const useCheckoutStore = zustand((set) => ({
+export const useCheckoutStore = create((set) => ({
   cart: [],
   addToCart: (product) => set((state) => ({ cart: [...state.cart, product] })),
   removeFromCart: (product) =>

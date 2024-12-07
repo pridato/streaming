@@ -1,38 +1,21 @@
 import { motion } from "framer-motion";
-import {
-  validateCardExpiry,
-  validateCardNumber,
-  validateCvc,
-  validateEmail,
-} from "../../../utils/validators";
+import { validateEmail } from "../../../utils/validators";
 import { useState } from "react";
+import { CardElement } from "@stripe/react-stripe-js";
 
-const PaymentForm = ({
-  onSubmit,
-  setName,
-  setEmail,
-  setCardNumber,
-  setCardExpiry,
-  setCardCvc,
-  setError,
-  error,
-}) => {
-  const [result, setResult] = useState(null);
-  const inputClasses =
-    "w-full px-2 py-1 bg-slate-900 border border-gray-700 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-transparent";
-  const labelClasses = "block text-xs font-medium text-gray-400 mb-1";
-
+const PaymentForm = ({ onSubmit, setName, setEmail, setError, error }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-slate-800 rounded-lg p-3 border border-gray-700"
+      className="bg-slate-800 rounded-lg p-6 border border-gray-700"
     >
-      {/* Mensajes de error */}
+      {/* Manejo de errores */}
       {error && (
-        <div className="bg-slate-900 border border-red-500 text-red-400 text-sm p-4 rounded-lg mb-4 flex items-center gap-3">
+        <div className="bg-red-600 text-white text-sm p-3 rounded-lg mb-4 flex items-center gap-3">
           <svg
-            className="w-5 h-5 flex-shrink-0"
+            className="w-5 h-5"
+            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -49,10 +32,11 @@ const PaymentForm = ({
             onClick={() => {
               setError(null);
             }}
-            className="text-red-400 hover:text-red-300 transition-colors"
+            className="text-red-200 hover:text-red-100"
           >
             <svg
               className="w-4 h-4"
+              xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -67,15 +51,18 @@ const PaymentForm = ({
           </button>
         </div>
       )}
-      {/* Título del formulario de pago */}
-      <h2 className="text-sm font-medium text-white mb-3">
+
+      <h2 className="text-xl font-semibold text-white mb-4">
         Información de Pago
       </h2>
 
-      <form className="space-y-2" onSubmit={onSubmit}>
-        {/* Campo para el nombre del titular de la tarjeta */}
+      <form className="space-y-4" onSubmit={onSubmit}>
+        {/* Nombre del titular */}
         <div>
-          <label htmlFor="name" className={labelClasses}>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
             Nombre del titular
           </label>
           <input
@@ -83,15 +70,18 @@ const PaymentForm = ({
             type="text"
             id="name"
             name="name"
-            className={inputClasses}
+            className="w-full px-4 py-2 bg-slate-900 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="John Doe"
             required
           />
         </div>
 
-        {/* Campo para el email */}
+        {/* Email */}
         <div>
-          <label htmlFor="email" className={labelClasses}>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-300 mb-2"
+          >
             Email
           </label>
           <input
@@ -102,90 +92,26 @@ const PaymentForm = ({
             type="email"
             id="email"
             name="email"
-            className={inputClasses}
+            className="w-full px-4 py-2 bg-slate-900 text-white border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="john@example.com"
             required
           />
         </div>
 
-        {/* Campo para el número de tarjeta */}
-        <div className="relative">
-          <label htmlFor="cardNumber" className={labelClasses}>
-            Número de tarjeta
+        {/* Card Element */}
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Datos de la tarjeta
           </label>
-          <input
-            onChange={(e) => {
-              setResult(validateCardNumber(e.target.value));
-              setCardNumber(e.target.value);
-              if (typeof result === "string") {
-                setError(result);
-              } else {
-                setError(null);
-              }
-            }}
-            type="text"
-            id="cardNumber"
-            name="cardNumber"
-            className={`${inputClasses} ${result?.icon ? "pr-10" : ""}`}
-            placeholder="4242 4242 4242 4242"
-            maxLength="19"
-            required
-          />
-          {result?.icon && (
-            <div className="absolute right-2 top-[24px] bg-white rounded shadow-sm border border-gray-200">
-              <div className="w-8 h-5 flex items-center justify-center">
-                {result.icon}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Contenedor para fecha de expiración y CVC */}
-        <div className="grid grid-cols-2 gap-2">
-          {/* Campo para la fecha de expiración */}
-          <div>
-            <label htmlFor="cardExpiry" className={labelClasses}>
-              Fecha de expiración
-            </label>
-            <input
-              onChange={(e) => {
-                setCardExpiry(e.target.value);
-                setError(validateCardExpiry(e.target.value));
-              }}
-              type="text"
-              id="cardExpiry"
-              name="cardExpiry"
-              className={inputClasses}
-              placeholder="MM/YY"
-              maxLength="5"
-              required
-            />
-          </div>
-          {/* Campo para el código CVC */}
-          <div>
-            <label htmlFor="cardCvc" className={labelClasses}>
-              CVC
-            </label>
-            <input
-              onChange={(e) => {
-                setCardCvc(e.target.value);
-                setError(validateCvc(e.target.value));
-              }}
-              type="text"
-              id="cardCvc"
-              name="cardCvc"
-              className={inputClasses}
-              placeholder="123"
-              maxLength="3"
-              required
-            />
+          <div className="p-2 bg-slate-900 border border-gray-600 rounded-md">
+            <CardElement />
           </div>
         </div>
 
         {/* Botón de pago */}
         <button
           type="submit"
-          className="w-full flex items-center justify-center gap-2 px-3 py-2 mt-2 bg-purple-600 rounded-lg text-white text-sm font-medium hover:bg-purple-700 transition-colors duration-200"
+          className="w-full py-2 bg-purple-600 text-white rounded-md text-lg font-semibold hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
         >
           Pagar ahora
         </button>
